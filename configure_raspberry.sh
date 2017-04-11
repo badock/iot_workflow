@@ -7,6 +7,7 @@ set -x
 # Dependencies management
 ############################################################
 apt-get install -y unzip wget
+apt-get install -y nodejs npm node-semver
 
 ############################################################
 # CONFIGURE CONSUL
@@ -63,6 +64,14 @@ if [ ! -f /usr/bin/node-red ]; then
     # NodeRED is packaged with Raspbian since "Raspbian Jessie"
     :
 fi
+
+# Install NodeRED dashboard
+if [ ! -d ~pi/.node-red ]; then
+    mkdir ~pi/.node-red
+fi
+pushd ~pi/.node-red
+npm i node-red-dashboard
+popd
 
 # Configure NodeRED as a systemd service
 cat << EOF > /etc/systemd/system/nodered.service
